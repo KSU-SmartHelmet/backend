@@ -9,7 +9,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**") // 모든 API 엔드포인트에 CORS 적용
-                .allowedOrigins("http://localhost:3000") // 프런트엔드의 URL로 교체
+                .allowedOrigins("http://localhost:5173") // 프런트엔드의 URL로 교체
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true);
