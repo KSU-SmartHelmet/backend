@@ -31,6 +31,7 @@ public class Controller {
         return ResponseEntity.ok("회원가입 성공");
     }
 
+
     // 로그인
     @PostMapping("/signIn")
     public ResponseEntity<String> signIn(@RequestBody User loginUser) {
@@ -38,7 +39,7 @@ public class Controller {
         if (user == null || !user.getPassword().equals(loginUser.getPassword())) {
             return ResponseEntity.status(401).body("로그인 실패: 아이디 또는 비밀번호 오류");
         }
-        String token = jwtUtil.generateToken(user.getNickName());
+        String token = jwtUtil.generateToken(user.getUserId());
         return ResponseEntity.ok(token);
     }
 
@@ -52,14 +53,10 @@ public class Controller {
     // 로그인 성공 후 홈 페이지
     @GetMapping("/home")
     public ResponseEntity<String> home(@RequestHeader("Authorization") String authHeader) {
-        if (authHeader == null || !authHeader.startsWith("Bearer "))
+        if (authHeader == null)
             return ResponseEntity.status(401).body("토큰이 없습니다");
 
-        String token = authHeader.substring(7);
-        String nickName = jwtUtil.validateAndGetUsername(token);
-        if (nickName == null)
-            return ResponseEntity.status(401).body("유효하지 않은 토큰");
-
-        return ResponseEntity.ok("홈입니다, " + nickName + "님!");
+        return ResponseEntity.ok("홈입니다 님!");
     }
+
 }
